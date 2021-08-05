@@ -1,52 +1,123 @@
 # README
+## Schema
+![schema](https://i.ibb.co/6rrx29M/Screen-Shot-2021-08-05-at-11-06-57-AM.png)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
+##Endpoints
 ```
-### Get Customer Subscription Endpoint: 
+### 1. Get Customer Subscription Endpoint: An endpoint to see all of a customer’s subscriptions (active and cancelled) subscription
 #### Request Format:
 ```
-`GET localhost:3000/api/v1/customers/:customer_id/subscriptions?location=denver,co`
+`GET /api/v1/customers/:id/subscriptions`
 ```
-External APIs used: [Unsplash](https://api.unsplash.com)
+
 #### Response Format:
 ```json
 response_body = {
   "data": {
-      "id": null,
-      "type": "image",
+      "id": 1,
+      "type": "customer",
       "attributes": {
-          "image": {
-              "location": "denver, co",
-              "image_url": "https://images.unsplash.com/photo-1619856699906-09e1f58c98b1?ixid=MnwyMzk1NjR8MHwxfHNlYXJjaHwxfHxkZW52ZXIlMkMlMjBjb3xlbnwwfHx8fDE2MjM3Nzg5NzU&ixlib=rb-1.2.1",
-              "credit": {
-                  "source": "unsplash.com",
-                  "author": "Ryan De Hamer",
-                  "logo": "https://unsplash.com/@rdehamer"
-                }
+          "first_name": "Bridget",
+          "last_name": "Beer",
+          "email": "cesar@mosciski.biz",
+          "address": "45757 Rolande Ramp",
+          
+          "subscription": [
+          {
+              "id": 1,
+              "title": "Fujian New Craft subscription",
+              "price": 32,
+              "status": "sold out"
+            },
+          {
+              "id": 2,
+              "title": "Goji subscription",
+              "price": 32,
+              "status": "discontinued"
             }
+            ]
+        }
+    }
+}
+```
+
+```
+### 2. POST Customer Subscription Endpoint: An endpoint to subscribe a customer to a tea
+#### Request Format:
+```
+`PUT   /api/v1/customers/:customer_id/subscriptions/:id`
+```
+
+#### Response Format:
+```json
+response_body = {
+  "data": {
+      "id": 1,
+      "type": "customer",
+      "attributes": {
+          "first_name": "Bridget",
+          "last_name": "Beer",
+          "email": "cesar@mosciski.biz",
+          "address": "45757 Rolande Ramp",
+          
+          "subscription": [
+          {
+              "id": 1,
+              "title": "Fujian New Craft subscription",
+              "price": 32,
+              "status": "sold out"
+            },
+          {
+              "id": 2,
+              "title": "Goji subscription",
+              "price": 32,
+              "status": "discontinued"
+            },
+          {
+              "id": 3,
+              "title": "Yi Zhen Bai Hao subscription",
+              "price": 19,
+              "status": "sold out"
+            }
+            ]
+        }
+    }
+}
+```
+
+```
+### 3. PATCH Customer Subscription Endpoint: An endpoint to cancel a customer’s tea subscription
+#### Request Format:
+```
+`PATCH /api/v1/customers/:customer_id/subscriptions/:id`
+```
+
+#### Response Format:
+```json
+response_body = {
+  "data": {
+      "id": 1,
+      "type": "customer",
+      "attributes": {
+          "first_name": "Bridget",
+          "last_name": "Beer",
+          "email": "cesar@mosciski.biz",
+          "address": "45757 Rolande Ramp",
+          
+          "subscription": [
+          {
+              "id": 1,
+              "title": "Fujian New Craft subscription",
+              "price": 32,
+              "status": "sold out"
+            },
+          {
+              "id": 2,
+              "title": "Goji subscription",
+              "price": 32,
+              "status": "discontinued"
+          }
+            ]
         }
     }
 }
