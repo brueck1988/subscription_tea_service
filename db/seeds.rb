@@ -39,11 +39,11 @@ end
   )
 end
 
-customer_subscription1 = CustomerSubscription.create!(customer_id: 1, subscription_id: 1)
-customer_subscription2 = CustomerSubscription.create!(customer_id: 1, subscription_id: 2)
-customer_subscription3 = CustomerSubscription.create!(customer_id: 2, subscription_id: 2)
-customer_subscription4 = CustomerSubscription.create!(customer_id: 2, subscription_id: 3)
-customer_subscription5 = CustomerSubscription.create!(customer_id: 2, subscription_id: 4)
+customer_subscription1 = CustomerSubscription.create!(customer_id: 1, subscription_id: 1, status: "Active")
+customer_subscription2 = CustomerSubscription.create!(customer_id: 1, subscription_id: 2, status: "Cancelled")
+customer_subscription3 = CustomerSubscription.create!(customer_id: 2, subscription_id: 2, status: "Active")
+customer_subscription4 = CustomerSubscription.create!(customer_id: 2, subscription_id: 3, status: "Cancelled")
+customer_subscription5 = CustomerSubscription.create!(customer_id: 2, subscription_id: 4, status: "Active")
 
 subscription_tea1 = SubscriptionTea.create!(subscription_id: 1, tea_id: 1)
 subscription_tea2 = SubscriptionTea.create!(subscription_id: 1, tea_id: 2)
