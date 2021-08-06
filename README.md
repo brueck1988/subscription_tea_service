@@ -13,32 +13,24 @@
 #### Response Format:
 ```json
 response_body = {
-  "data": {
-      "id": 1,
-      "type": "customer",
-      "attributes": {
-          "first_name": "Bridget",
-          "last_name": "Beer",
-          "email": "cesar@mosciski.biz",
-          "address": "45757 Rolande Ramp",
-          
-          "subscription": [
-          {
-              "id": 1,
-              "title": "Fujian New Craft subscription",
-              "price": 32,
-              "status": "sold out"
-            },
-          {
-              "id": 2,
-              "title": "Goji subscription",
-              "price": 32,
-              "status": "discontinued"
-            }
-            ]
-        }
+  :data=>
+  [
+  {:id=>"194",
+    :type=>"customer_subscription",
+    :attributes=>
+     {:title=>"Shou Mei subscription",
+      :price=>0,
+      :status=>"discontinued",
+      :frequency=>7}},
+   {:id=>"195",
+    :type=>"customer_subscription",
+    :attributes=>
+     {:title=>"Bai Mu Dan subscription",
+      :price=>42,
+      :status=>"sold out",
+      :frequency=>4}}
+      ]
     }
-}
 ```
 
 ```
