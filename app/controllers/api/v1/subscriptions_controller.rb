@@ -2,12 +2,14 @@ class Api::V1::SubscriptionsController < ApplicationController
   before_action :find_customer
   
   def index
-    render json: SubscriptionSerializer.new(@customer.subscriptions), status: :ok
+    render json: CustomerSubscriptionSerializer.new(@customer.customer_subscriptions), status: :ok
   end
   
   def create
     subscription = @customer.subscriptions.create(subscription_params)
-    render json: SubscriptionSerializer.new(subscription), status: :created
+    customer_subscription = subscription.customer_subscriptions.last
+    customer_subscription.update(status: "Active")
+    render json: CustomerSubscriptionSerializer.new(customer_subscription), status: :created
   end
 
   def update

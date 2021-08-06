@@ -48,17 +48,15 @@ RSpec.describe 'Get Customer Subscriptions API' do
       expect(customer_subscriptions[:data]).to be_a(Array)
       expect(customer_subscriptions[:data].count).to eq(2)
       expect(customer_subscriptions[:data][0][:id]).to be_a String
-      expect(customer_subscriptions[:data][0][:type]).to eq("subscription")
+      expect(customer_subscriptions[:data][0][:type]).to eq("customer_subscription")
       expect(customer_subscriptions[:data][0][:attributes]).to be_a Hash
-      expect(customer_subscriptions[:data][0][:attributes].count).to eq(4)
-      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:title)
-      expect(customer_subscriptions[:data][0][:attributes][:title]).to be_a String
-      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:price)
-      expect(customer_subscriptions[:data][0][:attributes][:price]).to be_an Integer
+      expect(customer_subscriptions[:data][0][:attributes].count).to eq(3)
+      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:customer_id)
+      expect(customer_subscriptions[:data][0][:attributes][:customer_id]).to be_a Integer
+      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:subscription_id)
+      expect(customer_subscriptions[:data][0][:attributes][:subscription_id]).to be_an Integer
       expect(customer_subscriptions[:data][0][:attributes]).to have_key(:status)
       expect(customer_subscriptions[:data][0][:attributes][:status]).to be_a String
-      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:frequency)
-      expect(customer_subscriptions[:data][0][:attributes][:price]).to be_an Integer
     end
   end
 end
