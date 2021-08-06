@@ -39,6 +39,8 @@ group :development, :test do
   gem 'pry'
   gem 'shoulda-matchers'
   # gem 'travis'
+  gem 'faker'
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -46,7 +48,6 @@ group :development do
   gem 'rubocop-rails'
   gem 'web-console', '>= 3.3.0'
   # gem 'graphiql-rails'
-  gem 'faker'
 end
 
 group :test do
