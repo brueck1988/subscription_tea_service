@@ -16,14 +16,14 @@ response_body = {
   :data=>
   [
   {:id=>"194",
-    :type=>"customer_subscription",
+    :type=>"subscription",
     :attributes=>
      {:title=>"Shou Mei subscription",
       :price=>0,
       :status=>"discontinued",
       :frequency=>7}},
    {:id=>"195",
-    :type=>"customer_subscription",
+    :type=>"subscription",
     :attributes=>
      {:title=>"Bai Mu Dan subscription",
       :price=>42,
