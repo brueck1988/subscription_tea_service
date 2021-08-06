@@ -2,7 +2,7 @@ class Api::V1::SubscriptionsController < ApplicationController
   before_action :find_customer
   
   def index
-    render json: SubscriptionSerializer.new(@customer.subscriptions)
+    render json: SubscriptionSerializer.new(@customer.subscriptions), status: :ok
   end
   
   def create
@@ -11,7 +11,9 @@ class Api::V1::SubscriptionsController < ApplicationController
   end
 
   def update
-    
+    customer_subscription = CustomerSubscription.find_by({customer_id: params[:customer_id], subscription_id: params[:id]})
+    updated = CustomerSubscription.update(customer_subscription.id, status: params[:subscription][:status])
+    render json: CustomerSubscriptionSerializer.new(updated), status: :ok
   end
   
   private
