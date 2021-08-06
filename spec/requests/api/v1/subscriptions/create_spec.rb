@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Get Customer Subscriptions API' do
+RSpec.describe 'Create Customer Subscription API' do
   before :each do
     customer1 = create(:customer)
     customer2 = create(:customer)
@@ -9,6 +9,7 @@ RSpec.describe 'Get Customer Subscriptions API' do
     subscription2 = create(:subscription)
     subscription3 = create(:subscription)
     subscription4 = create(:subscription)
+    subscription5 = create(:subscription)
     
     tea1 = create(:tea)
     tea2 = create(:tea)
@@ -39,24 +40,33 @@ RSpec.describe 'Get Customer Subscriptions API' do
   end
   
   describe 'Happy path' do
-    it 'sends subscription info for a given customer' do
-      customer1 = Customer.first
-      get "/api/v1/customers/#{customer1.id}/subscriptions"
-      customer_subscriptions = JSON.parse(response.body, symbolize_names: true)
+    it 'Adds subscription for a given customer' do
+      headers = {'Content-Type': "application/json"}
+
+      body = {
+                "title": "Delicious subscription",
+                "price": 30,
+                "status": "available",
+                "frequency": 14
+              }
+
+      post "/api/v1/customers/#{Customer.first.id}/subscriptions", headers: headers, params: body.to_json
+      customer_subscription = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to be_successful
-      expect(customer_subscriptions[:data]).to be_a(Array)
-      expect(customer_subscriptions[:data].count).to eq(2)
-      expect(customer_subscriptions[:data][0][:id]).to be_a String
-      expect(customer_subscriptions[:data][0][:type]).to eq("customer_subscription")
-      expect(customer_subscriptions[:data][0][:attributes]).to be_a Hash
-      expect(customer_subscriptions[:data][0][:attributes].count).to eq(3)
-      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:customer_id)
-      expect(customer_subscriptions[:data][0][:attributes][:customer_id]).to be_a Integer
-      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:subscription_id)
-      expect(customer_subscriptions[:data][0][:attributes][:subscription_id]).to be_an Integer
-      expect(customer_subscriptions[:data][0][:attributes]).to have_key(:status)
-      expect(customer_subscriptions[:data][0][:attributes][:status]).to be_a String
+      expect(customer_subscription[:data]).to be_a Hash
+      expect(customer_subscription[:data].count).to eq(3)
+      expect(customer_subscription[:data][:id]).to be_a String      
+      expect(customer_subscription[:data][:type]).to eq("customer_subscription")
+      expect(customer_subscription[:data][:attributes]).to be_a Hash
+      expect(customer_subscription[:data][:attributes].count).to eq(3)
+      expect(customer_subscription[:data][:attributes]).to have_key(:customer_id)
+      expect(customer_subscription[:data][:attributes][:customer_id]).to be_a Integer
+      expect(customer_subscription[:data][:attributes]).to have_key(:subscription_id)
+      expect(customer_subscription[:data][:attributes][:subscription_id]).to be_an Integer
+      expect(customer_subscription[:data][:attributes]).to have_key(:status)
+      expect(customer_subscription[:data][:attributes][:status]).to be_a String
+      expect(customer_subscription[:data][:attributes][:status]).to eq("Active")
     end
   end
 end
