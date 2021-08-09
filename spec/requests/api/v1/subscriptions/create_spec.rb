@@ -54,19 +54,41 @@ RSpec.describe 'Create Customer Subscription API' do
       customer_subscription = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to be_successful
-      expect(customer_subscription[:data]).to be_a Hash
-      expect(customer_subscription[:data].count).to eq(3)
-      expect(customer_subscription[:data][:id]).to be_a String      
-      expect(customer_subscription[:data][:type]).to eq("customer_subscription")
-      expect(customer_subscription[:data][:attributes]).to be_a Hash
-      expect(customer_subscription[:data][:attributes].count).to eq(3)
-      expect(customer_subscription[:data][:attributes]).to have_key(:customer_id)
-      expect(customer_subscription[:data][:attributes][:customer_id]).to be_a Integer
-      expect(customer_subscription[:data][:attributes]).to have_key(:subscription_id)
-      expect(customer_subscription[:data][:attributes][:subscription_id]).to be_an Integer
-      expect(customer_subscription[:data][:attributes]).to have_key(:status)
-      expect(customer_subscription[:data][:attributes][:status]).to be_a String
-      expect(customer_subscription[:data][:attributes][:status]).to eq("Active")
+
+      expect(customer_subscription[:data][0]).to be_a Hash
+      expect(customer_subscription[:data][0].count).to eq(3)
+      expect(customer_subscription[:data][0][:id]).to be_a String      
+      expect(customer_subscription[:data][0][:type]).to eq("customer_subscription")
+      expect(customer_subscription[:data][0][:attributes]).to be_a Hash
+      expect(customer_subscription[:data][0][:attributes].count).to eq(3)
+      expect(customer_subscription[:data][0][:attributes]).to have_key(:customer_id)
+      expect(customer_subscription[:data][0][:attributes][:customer_id]).to be_a Integer
+      expect(customer_subscription[:data][0][:attributes]).to have_key(:subscription_id)
+      expect(customer_subscription[:data][0][:attributes][:subscription_id]).to be_an Integer
+      expect(customer_subscription[:data][0][:attributes]).to have_key(:status)
+      expect(customer_subscription[:data][0][:attributes][:status]).to be_a String
+      expect(customer_subscription[:data][0][:attributes][:status]).to eq("Active")
+    end
+  end
+  
+  describe 'Sad path' do
+    it 'Customer does not exist' do
+      headers = {'Content-Type': "application/json"}
+
+      body = {
+                "title": "Delicious subscription",
+                "price": 30,
+                "status": "available",
+                "frequency": 14
+              }
+
+      post "/api/v1/customers/999999/subscriptions", headers: headers, params: body.to_json
+      customer_subscription = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to_not be_successful
+      expect(response.status).to be(404)
+      expect(customer_subscription).to be_a Hash
+      expect(customer_subscription[:errors]).to eq("Customer cannot be found")
     end
   end
 end

@@ -59,4 +59,16 @@ RSpec.describe 'Get Customer Subscriptions API' do
       expect(customer_subscriptions[:data][0][:attributes][:status]).to be_a String
     end
   end
+  
+  describe 'Sad path' do
+    it 'Customer does not exist' do
+      get "/api/v1/customers/99999/subscriptions"
+      customer_subscription = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response).to_not be_successful
+      expect(response.status).to be(404)
+      expect(customer_subscription).to be_a Hash
+      expect(customer_subscription[:errors]).to eq("Customer cannot be found")
+    end
+  end
 end

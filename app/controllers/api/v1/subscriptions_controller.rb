@@ -1,5 +1,5 @@
 class Api::V1::SubscriptionsController < ApplicationController
-  before_action :find_customer
+  before_action :find_customer, only: [:index, :create]
   
   def index
     render json: CustomerSubscriptionSerializer.new(@customer.customer_subscriptions), status: :ok
@@ -7,7 +7,7 @@ class Api::V1::SubscriptionsController < ApplicationController
   
   def create
     subscription = @customer.subscriptions.create(subscription_params)
-    customer_subscription = subscription.customer_subscriptions.last
+    customer_subscription = CustomerSubscription.where(customer_id: params[:customer_id], subscription_id: subscription.id)
     customer_subscription.update(status: "Active")
     render json: CustomerSubscriptionSerializer.new(customer_subscription), status: :created
   end
@@ -25,6 +25,9 @@ class Api::V1::SubscriptionsController < ApplicationController
   end
   
   def find_customer
-    @customer = Customer.find(params[:customer_id])
+    @customer = Customer.find_by(id: params[:customer_id])
+    if @customer == nil
+      render json: { errors: "Customer cannot be found" }, status: :not_found
+    end
   end
 end
